@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Credit Requests</title>
+</head>
+<body>
+    <h1>Admin - Credit Requests</h1>
+
+    {% if credit_requests %}
+        <table border="1">
+            <tr>
+                <th>User</th>
+                <th>Requested Credits</th>
+                <th>Status</th>
+                <th>Approve</th>
+                <th>Deny</th>
+            </tr>
+            {% for request in credit_requests %}
+            <tr>
+                <td>{{ request.username }}</td>
+                <td>{{ request.requested_credits }}</td>
+                <td>{{ request.status }}</td>
+                <td>
+                    {% if request.status == "pending" %}
+                        <a href="{{ url_for('approve_credit', request_id=request.id) }}">✅ Approve</a>
+                    {% else %}
+                        <button disabled>✅ Approved</button>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if request.status == "pending" %}
+                        <a href="{{ url_for('deny_credit', request_id=request.id) }}">❌ Deny</a>
+                    {% else %}
+                        <button disabled>❌ Denied</button>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No credit requests found.</p>
+    {% endif %}
+
+    <br>
+    <a href="{{ url_for('dashboard') }}">Back to Admin Dashboard</a>
+</body>
+</html>

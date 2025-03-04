@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Credit Requests</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        table { width: 80%; margin: auto; border-collapse: collapse; }
+        th, td { padding: 10px; border: 1px solid #ccc; text-align: center; }
+        th { background-color: #f4f4f4; }
+        button { padding: 5px 10px; margin: 5px; cursor: pointer; }
+        .approved { color: green; }
+        .denied { color: red; }
+    </style>
+</head>
+<body>
+
+    <h2>Credit Requests</h2>
+
+    <table>
+        <tr>
+            <th>Username</th>
+            <th>Requested Credits</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        {% for request in credit_requests %}
+            <tr>
+                <td>{{ request.username }}</td>
+                <td>{{ request.requested_credits }}</td>
+                <td class="{{ 'approved' if request.status == 'approved' else 'denied' if request.status == 'denied' else '' }}">
+                    {{ request.status }}
+                </td>
+                <td>
+                    {% if request.status == "pending" %}
+                        <a href="{{ url_for('approve_credit', index=loop.index0) }}"><button>Approve</button></a>
+                        <a href="{{ url_for('deny_credit', index=loop.index0) }}"><button>Reject</button></a>
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+    <a href="/dashboard">Back to Dashboard</a>
+
+</body>
+</html>

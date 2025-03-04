@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        .file-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .file-list li {
+            margin: 10px 0;
+        }
+        a {
+            text-decoration: none;
+            color: blue;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Matching Files</h2>
+    
+    {% if matched_files %}
+        <ul class="file-list">
+            {% for file in matched_files %}
+                <li><a href="{{ url_for('view_file', filename=file) }}">{{ file }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No similar documents found.</p>
+    {% endif %}
+
+    <br>
+    <a href="/dashboard">Go Back to Dashboard</a>
+
+</body>
+</html>
